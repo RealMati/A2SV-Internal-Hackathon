@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './schema/user.schema';
@@ -6,8 +6,10 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { Pharma } from './schema/pharma.schema';
-import { Admin } from 'mongodb';
+
 import { PharmaRegisterDto } from './dto/pharma-register.dto';
+import { Admin } from './schema/admin.schema';
+import { UserLoginDto } from './dto/user-login.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,8 +21,19 @@ export class AuthService {
   ) {}
 
   // User
-  async userLogin() {
-    return 'User login';
+  async userLogin(reqBody: UserLoginDto): Promise<{ token: string }> {
+    const accObj = { ...reqBody };
+    const user = await this.userModel.findOne({ email: accObj.email });
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const valid = await bcrypt.compare(accObj.password, user.password);
+    let accessToken: string;
+    if (valid) {
+      accessToken = this.jwtService.sign({ id: user._id, role: 'user' });
+    }
+    return { token: accessToken };
   }
 
   async userRegister(reqBody: UserRegisterDto): Promise<{ token: string }> {
@@ -42,8 +55,19 @@ export class AuthService {
 
   // Admin
 
-  async adminLogin() {
-    return 'Admin login';
+  async adminLogin(reqBody: UserLoginDto): Promise<{ token: string }> {
+    const accObj = { ...reqBody };
+    const admin = await this.adminModel.findOne({ email: accObj.email });
+    if (!admin) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const valid = await bcrypt.compare(accObj.password, admin.password);
+    let accessToken: string;
+    if (valid) {
+      accessToken = this.jwtService.sign({ id: admin._id, role: 'admin' });
+    }
+    return { token: accessToken };
   }
 
   async adminRegister(reqBody: UserRegisterDto): Promise<{ token: string }> {
@@ -64,9 +88,20 @@ export class AuthService {
   }
 
   // Pharmacy
+  
+  async pharmacyLogin(reqBody: UserLoginDto): Promise<{ token: string }> {
+    const accObj = { ...reqBody };
+    const pharma = await this.adminModel.findOne({ email: accObj.email });
+    if (!pharma) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
 
-  async pharmacyLogin() {
-    return 'Pharmacy login';
+    const valid = await bcrypt.compare(accObj.password, pharma.password);
+    let accessToken: string;
+    if (valid) {
+      accessToken = this.jwtService.sign({ id: pharma._id, role: 'admin' });
+    }
+    return { token: accessToken };
   }
 
   async pharmacyRegister(

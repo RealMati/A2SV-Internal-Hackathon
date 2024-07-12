@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { Request, Response } from 'express';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { PharmaRegisterDto } from './dto/pharma-register.dto';
@@ -24,8 +25,18 @@ export class AuthController {
 
   // User
   @Post('user/login')
-  userLogin() {
-    return this.authService.userLogin();
+  async userLogin(@Body() reqBody: UserLoginDto, @Res() res: Response) {
+    const { token } = await this.authService.userLogin(reqBody);
+    if (token) {
+      res
+        .cookie('accessToken', token, {
+          httpOnly: true,
+          maxAge: 24 * 3600 * 1000,
+        })
+        .sendStatus(200);
+    } else {
+      res.cookie('accessToken', '', { maxAge: 1 }).sendStatus(409);
+    }
   }
 
   @Post('user/register')
@@ -40,8 +51,18 @@ export class AuthController {
 
   // Admin
   @Post('admin/login')
-  adminLogin() {
-    return this.authService.adminLogin();
+  async adminLogin(@Body() reqBody: UserLoginDto, @Res() res: Response) {
+    const { token } = await this.authService.adminLogin(reqBody);
+    if (token) {
+      res
+        .cookie('accessToken', token, {
+          httpOnly: true,
+          maxAge: 24 * 3600 * 1000,
+        })
+        .sendStatus(200);
+    } else {
+      res.cookie('accessToken', '', { maxAge: 1 }).sendStatus(409);
+    }
   }
 
   @Post('admin/register')
@@ -56,8 +77,18 @@ export class AuthController {
 
   // Pharmacy
   @Post('pharmacy/login')
-  pharmacyLogin() {
-    return this.authService.pharmacyLogin();
+  async pharmacyLogin(@Body() reqBody: UserLoginDto, @Res() res: Response) {
+    const { token } = await this.authService.pharmacyLogin(reqBody);
+    if (token) {
+      res
+        .cookie('accessToken', token, {
+          httpOnly: true,
+          maxAge: 24 * 3600 * 1000,
+        })
+        .sendStatus(200);
+    } else {
+      res.cookie('accessToken', '', { maxAge: 1 }).sendStatus(409);
+    }
   }
 
   @Post('pharmacy/register')
