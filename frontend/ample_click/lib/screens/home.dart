@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 class UserHome extends StatefulWidget {
   const UserHome({super.key});
 
+  final _selected = 0;
+
   @override
   State<UserHome> createState() => _UserHomeState();
 }
@@ -88,12 +90,12 @@ class _UserHomeState extends State<UserHome> {
                                   children: [
                                     Text(
                                       item['title'],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(item['description'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 14, color: Colors.grey))
                                   ],
                                 ),
@@ -104,6 +106,15 @@ class _UserHomeState extends State<UserHome> {
                       ),
                     );
                   }))
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: widget._selected,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.store), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.location_on_sharp), label: "Nearby"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
         ],
       ),
     );
