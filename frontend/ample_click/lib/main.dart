@@ -1,4 +1,5 @@
-import 'package:ample_click/screens/home.dart';
+import 'package:ample_click/screens/pharmacy_home.dart';
+import 'package:ample_click/screens/user_home.dart';
 import 'package:ample_click/screens/onboarding.dart';
 import 'package:ample_click/screens/pharma-login.dart';
 import 'package:ample_click/screens/pharma-signup.dart';
@@ -38,6 +39,10 @@ final _router = GoRouter(
       path: '/pharma/signup',
       builder: (context, state) => PharmaSignUp(),
     ),
+    GoRoute(
+      path: '/pharma/home',
+      builder: (context, state) => const PharmacyHome(),
+    ),
   ],
 );
 
@@ -53,8 +58,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         textTheme: const TextTheme(
-            titleLarge: TextStyle(fontFamily: 'Roboto', fontSize: 65),
-            titleMedium: TextStyle(fontFamily: 'Roboto', fontSize: 24),
+            titleLarge: TextStyle(fontFamily: 'Roboto', fontSize: 22),
+            titleMedium: TextStyle(fontFamily: 'Roboto', fontSize: 18),
             bodyMedium: TextStyle(fontFamily: 'alice', fontSize: 16),
             bodySmall: TextStyle(
               fontFamily: 'alice',
