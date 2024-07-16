@@ -1,6 +1,5 @@
 import 'package:ample_click/utils/dummy_data_home.dart';
 import 'package:ample_click/utils/dummy_data_pharmacies.dart';
-import 'package:ample_click/widgets/search_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

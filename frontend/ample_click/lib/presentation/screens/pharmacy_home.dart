@@ -1,29 +1,80 @@
+import 'package:ample_click/List-Of-Medicine.dart';
 import 'package:ample_click/presentation/widgets/edit_and_add_popup.dart';
-import 'package:ample_click/utils/dummy_data_home.dart';
-import 'package:ample_click/widgets/search_feild.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class PharmacyHome extends StatefulWidget {
   const PharmacyHome({super.key});
-
-  final _selected = 0;
 
   @override
   State<PharmacyHome> createState() => _PharmacyHomeState();
 }
 
 class _PharmacyHomeState extends State<PharmacyHome> {
+  List<String> medicines = [];
+  List<String> filteredMedicines = [];
+  bool isSearching = false;
+  final TextEditingController _controller = TextEditingController();
+
+  void getMedicines() {
+    medicines = Medicines().getMedicines();
+    filteredMedicines = medicines;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getMedicines();
+  }
+
+  void _filterSearch(String value) {
+    setState(() {
+      filteredMedicines = medicines
+          .where((meds) => meds.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                context.pop();
-              },
-              icon: const Icon(Icons.chevron_left)),
+          title: !isSearching
+              ? const Text('Search Medicines')
+              : TextField(
+                  onChanged: (value) {
+                    _filterSearch(value);
+                  },
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: InputDecoration(
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.deepPurple,
+                    ),
+                    hintText: "Search Medicines Here",
+                    hintStyle: TextStyle(color: Colors.deepPurple[200]),
+                  ),
+                ),
+          actions: <Widget>[
+            isSearching
+                ? IconButton(
+                    icon: const Icon(Icons.cancel),
+                    onPressed: () {
+                      setState(() {
+                        isSearching = false;
+                        filteredMedicines = medicines;
+                      });
+                    },
+                  )
+                : IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        isSearching = true;
+                      });
+                    },
+                  )
+          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,13 +84,7 @@ class _PharmacyHomeState extends State<PharmacyHome> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Card(
-                    elevation: 12,
-                    margin: EdgeInsets.fromLTRB(8, 8, 8, 20),
-                    child:
-                        SearchFeild(hint_text: "Search for medicine here..."),
-                  ),
-                  Column(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
@@ -47,12 +92,13 @@ class _PharmacyHomeState extends State<PharmacyHome> {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.toggle_on,
-                            size: 50,
-                            color: Theme.of(context).colorScheme.primary,
-                          )),
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.toggle_on,
+                          size: 40,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -69,68 +115,78 @@ class _PharmacyHomeState extends State<PharmacyHome> {
               ),
             ),
             Expanded(
-                child: ListView.builder(
-                    itemCount: meds.length,
-                    itemBuilder: (context, index) {
-                      final item = meds[index];
-                      return Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                  width: 80,
-                                  height: 80,
-                                  child: ClipPath(
-                                    clipper: ShapeBorderClipper(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8))),
-                                    child: Image(
-                                      image: AssetImage(item['image']),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )),
-                              Container(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item['title'],
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(item['description'],
-                                        style: const TextStyle(
-                                            fontSize: 14, color: Colors.grey))
-                                  ],
+              child: ListView.builder(
+                itemCount: filteredMedicines.length,
+                itemBuilder: (context, index) {
+                  final item = filteredMedicines[index];
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 80,
+                            height: 80,
+                            child: ClipPath(
+                              clipper: ShapeBorderClipper(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
-                              Expanded(
-                                child: IconButton(
-                                    onPressed: () {
-                                      showEditAmountPopup(
-                                          context, ' Amount In Range');
-                                    },
-                                    icon: Icon(
-                                      Icons.toggle_on,
-                                      size: 40,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    )),
-                              )
-                            ],
+                              child: Image.asset(
+                                'assets/image1.jpg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
-                      );
-                    }))
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.60,
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const Text(
+                                  'Description not available',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: IconButton(
+                              onPressed: () {
+                                showEditAmountPopup(
+                                    context, ' Amount In Range');
+                              },
+                              icon: Icon(
+                                Icons.toggle_on,
+                                size: 40,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: widget._selected,
+          currentIndex: 0,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.store), label: "Home"),
             BottomNavigationBarItem(

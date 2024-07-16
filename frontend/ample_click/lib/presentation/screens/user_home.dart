@@ -1,7 +1,5 @@
-import 'package:ample_click/utils/dummy_data_home.dart';
-import 'package:ample_click/widgets/search_feild.dart';
+import 'package:ample_click/List-Of-Medicine.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class UserHome extends StatefulWidget {
   const UserHome({super.key});
@@ -13,55 +11,82 @@ class UserHome extends StatefulWidget {
 }
 
 class _UserHomeState extends State<UserHome> {
+  List<String> medicines = [];
+  List<String> filteredMedicines = [];
+  bool isSearching = false;
+  final TextEditingController _controller = TextEditingController();
+
+  void getMedicines() {
+    medicines = Medicines().getMedicines();
+    filteredMedicines = medicines;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getMedicines();
+  }
+
+  void _filterSearch(String value) {
+    setState(() {
+      filteredMedicines = medicines
+          .where((meds) => meds.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                context.pop();
-              },
-              icon: const Icon(Icons.chevron_left)),
+          title: !isSearching
+              ? const Text('Search Medicines')
+              : TextField(
+                  onChanged: (value) {
+                    _filterSearch(value);
+                  },
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: InputDecoration(
+                    icon: const Icon(
+                      Icons.search,
+                      color: Colors.deepPurple,
+                    ),
+                    hintText: "Search Medicines Here",
+                    hintStyle: TextStyle(color: Colors.deepPurple[200]),
+                  ),
+                ),
+          actions: <Widget>[
+            isSearching
+                ? IconButton(
+                    icon: const Icon(Icons.cancel),
+                    onPressed: () {
+                      setState(() {
+                        isSearching = false;
+                        filteredMedicines = medicines;
+                      });
+                    },
+                  )
+                : IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        isSearching = true;
+                      });
+                    },
+                  )
+          ],
         ),
         body: Column(
           children: [
-            Card(
-              color: Theme.of(context).splashColor,
-              margin: const EdgeInsets.fromLTRB(8, 8, 8, 20),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 5, bottom: 20, top: 10),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Save Time and Effort!",
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                              "No more running around - Find what you need in just a few taps!")
-                        ],
-                      ),
-                    ),
-                    const SearchFeild(hint_text: "Search for medicine here..."),
-                  ],
-                ),
-              ),
-            ),
             Expanded(
                 child: GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
-                    itemCount: meds.length,
+                    itemCount: filteredMedicines.length,
                     itemBuilder: (context, index) {
-                      final item = meds[index];
+                      final item = filteredMedicines[index];
                       return SizedBox(
                         height: 400,
                         width: 350,
@@ -76,13 +101,14 @@ class _UserHomeState extends State<UserHome> {
                                     height: 80,
                                     child: ClipPath(
                                       clipper: ShapeBorderClipper(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8))),
-                                      child: Image(
-                                        image: AssetImage(item['image']),
-                                        fit: BoxFit.cover,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
                                       ),
+                                      child: Image.asset(
+                                          'assets/pharma_profile.jpg',
+                                          fit: BoxFit.cover),
                                     )),
                                 Container(
                                   padding: const EdgeInsets.only(left: 5),
@@ -91,13 +117,16 @@ class _UserHomeState extends State<UserHome> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        item['title'],
+                                        item,
+                                        maxLines: 2,
                                         style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                      Text(item['description'],
-                                          style: const TextStyle(
+                                      const Text('Description not available',
+                                          style: TextStyle(
                                               fontSize: 14, color: Colors.grey))
                                     ],
                                   ),

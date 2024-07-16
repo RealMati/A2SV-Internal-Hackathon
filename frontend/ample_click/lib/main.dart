@@ -23,7 +23,7 @@ void main() {
 }
 
 final _router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/user/home',
   routes: [
     GoRoute(
       path: '/onboarding',
