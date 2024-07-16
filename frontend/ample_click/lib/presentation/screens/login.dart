@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class UserLogin extends ConsumerWidget {
-  UserLogin({super.key});
+class Login extends ConsumerWidget {
+  Login({super.key});
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   void userLoginHandler(WidgetRef ref) {
@@ -15,11 +15,17 @@ class UserLogin extends ConsumerWidget {
         .loginUser(_emailController.text, _passwordController.text);
   }
 
+  void pharmaLoginHandler(WidgetRef ref) {
+    ref
+        .read(pharmaLoginProvider.notifier)
+        .loginPharma(_emailController.text, _passwordController.text);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(userLoginProvider, (prev, nxt) {
       if (nxt.errors.isEmpty && nxt.token.isNotEmpty) {
-        context.goNamed("artist", pathParameters: {"token": nxt.token});
+        context.go("/user/home");
       }
 
       if (nxt.errors.isNotEmpty) {
@@ -31,6 +37,23 @@ class UserLogin extends ConsumerWidget {
         );
 
         ref.read(userLoginProvider.notifier).clearErrors();
+      }
+    });
+
+    ref.listen(pharmaLoginProvider, (prev, nxt) {
+      if (nxt.errors.isEmpty && nxt.token.isNotEmpty) {
+        context.go("/pharma/home");
+      }
+
+      if (nxt.errors.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(nxt.errors[0]),
+            backgroundColor: const Color.fromARGB(255, 212, 47, 47),
+          ),
+        );
+
+        ref.read(pharmaLoginProvider.notifier).clearErrors();
       }
     });
 
@@ -74,28 +97,65 @@ class UserLogin extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 40),
-              SizedBox(
-                height: 40,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    userLoginHandler(ref);
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all<Color>(
-                      const Color.fromARGB(255, 149, 117, 205),
-                    ),
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("    Sign-in as", style: TextStyle(fontSize: 16)),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 40,
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            pharmaLoginHandler(ref);
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all<Color>(
+                              const Color.fromARGB(255, 149, 117, 205),
+                            ),
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                          ),
+                          child: const Text(
+                            'Pharmacy',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        height: 40,
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            userLoginHandler(ref);
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all<Color>(
+                              const Color.fromARGB(255, 149, 117, 205),
+                            ),
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                          ),
+                          child: const Text(
+                            'User',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  child: const Text(
-                    'Sign in',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                ),
+                ],
               ),
               const SizedBox(height: 25),
               Row(
@@ -105,7 +165,7 @@ class UserLogin extends ConsumerWidget {
                       style: TextStyle(fontSize: 15)),
                   TextButton(
                     onPressed: () {
-                      context.go("/user/signup");
+                      context.go("/signup");
                     },
                     style: TextButton.styleFrom(
                       textStyle: const TextStyle(

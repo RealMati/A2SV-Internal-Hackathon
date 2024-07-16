@@ -9,7 +9,7 @@ class PharmaSignupNotifier extends StateNotifier<PharmaSignupState> {
 
   PharmaSignupNotifier({required this.pharmaSignupRepo})
       : super(SignupInitialPharma());
-  Future<void> artistSignup(PharmaSignupDTO pharmaDto) async {
+  Future<void> pharmaSignup(PharmaSignupDTO pharmaDto) async {
     final res = await PharmaSignupEntity(
             pharmacy: pharmaDto, signupRepository: pharmaSignupRepo)
         .signupPharma();

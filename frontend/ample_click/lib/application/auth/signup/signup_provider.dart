@@ -10,7 +10,7 @@ final userSignupProvider =
   return UserSignupNotifier(userSignupRepo: UserSignupRepository());
 });
 
-final pharmaLoginProvider =
+final pharmaSignupProvider =
     StateNotifierProvider<PharmaSignupNotifier, PharmaSignupState>((ref) {
   return PharmaSignupNotifier(pharmaSignupRepo: PharmaSignupRepository());
 });

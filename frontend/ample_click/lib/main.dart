@@ -1,4 +1,4 @@
-import 'package:ample_click/presentation/screens/user-signup.dart';
+import 'package:ample_click/presentation/screens/signup.dart';
 import 'package:ample_click/presentation/screens/pharma_store.dart';
 import 'package:ample_click/presentation/screens/pharmacy_home.dart';
 import 'package:ample_click/presentation/screens/user_home.dart';
@@ -6,7 +6,7 @@ import 'package:ample_click/presentation/screens/user_searched_med_detail.dart';
 import 'package:ample_click/presentation/screens/onboarding.dart';
 import 'package:ample_click/presentation/screens/pharma-login.dart';
 import 'package:ample_click/presentation/screens/pharma-signup.dart';
-import 'package:ample_click/presentation/screens/user-login.dart';
+import 'package:ample_click/presentation/screens/login.dart';
 import 'package:ample_click/presentation/screens/location-to-pharmacy.dart';
 
 import 'package:ample_click/presentation/screens/nearby-pharmacy.dart';
@@ -23,19 +23,19 @@ void main() {
 }
 
 final _router = GoRouter(
-  initialLocation: '/onboarding',
+  initialLocation: '/login',
   routes: [
     GoRoute(
       path: '/onboarding',
       builder: (context, state) => const Onboarding(),
     ),
     GoRoute(
-      path: '/user/login',
-      builder: (context, state) => UserLogin(),
+      path: '/login',
+      builder: (context, state) => Login(),
     ),
     GoRoute(
-      path: '/user/signup',
-      builder: (context, state) => UserSignUp(),
+      path: '/signup',
+      builder: (context, state) => SignUp(),
     ),
     GoRoute(
       path: '/user/home',

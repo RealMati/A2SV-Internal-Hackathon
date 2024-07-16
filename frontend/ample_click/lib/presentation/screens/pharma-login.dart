@@ -1,15 +1,39 @@
+import 'package:ample_click/application/auth/login/login_provider.dart';
 import 'package:ample_click/presentation/widgets/google-login.dart';
 import 'package:ample_click/presentation/widgets/auth-textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class PharmaLogin extends StatelessWidget {
+class PharmaLogin extends ConsumerWidget {
   PharmaLogin({super.key});
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  void pharmaLoginHandler(WidgetRef ref) {
+    ref
+        .read(pharmaLoginProvider.notifier)
+        .loginPharma(_emailController.text, _passwordController.text);
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(pharmaLoginProvider, (prev, nxt) {
+      if (nxt.errors.isEmpty && nxt.token.isNotEmpty) {
+        context.go("/pharma/home");
+      }
+
+      if (nxt.errors.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(nxt.errors[0]),
+            backgroundColor: const Color.fromARGB(255, 212, 47, 47),
+          ),
+        );
+
+        ref.read(pharmaLoginProvider.notifier).clearErrors();
+      }
+    });
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -54,7 +78,9 @@ class PharmaLogin extends StatelessWidget {
                 height: 40,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    pharmaLoginHandler(ref);
+                  },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
                       const Color.fromARGB(255, 149, 117, 205),
