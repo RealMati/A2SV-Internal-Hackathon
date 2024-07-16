@@ -1,11 +1,12 @@
-import 'package:ample_click/screens/location-to-pharmacy.dart';
-import 'package:ample_click/screens/onboarding.dart';
-import 'package:ample_click/screens/pharma-login.dart';
-import 'package:ample_click/screens/pharma-signup.dart';
-import 'package:ample_click/screens/nearby-pharmacy.dart';
-import 'package:ample_click/screens/pharmacy-detail.dart';
-import 'package:ample_click/screens/user-login.dart';
-import 'package:ample_click/screens/user-signup.dart';
+import 'package:ample_click/presentation/screens/onboarding.dart';
+import 'package:ample_click/presentation/screens/pharma-login.dart';
+import 'package:ample_click/presentation/screens/pharma-signup.dart';
+import 'package:ample_click/presentation/screens/user-login.dart';
+import 'package:ample_click/presentation/screens/user-signup.dart';
+import 'package:ample_click/presentation/screens/location-to-pharmacy.dart';
+
+import 'package:ample_click/presentation/screens/nearby-pharmacy.dart';
+import 'package:ample_click/presentation/screens/pharmacy-detail.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
