@@ -3,6 +3,10 @@ import 'package:ample_click/presentation/screens/pharma-login.dart';
 import 'package:ample_click/presentation/screens/pharma-signup.dart';
 import 'package:ample_click/presentation/screens/user-login.dart';
 import 'package:ample_click/presentation/screens/user-signup.dart';
+import 'package:ample_click/presentation/screens/location-to-pharmacy.dart';
+
+import 'package:ample_click/presentation/screens/nearby-pharmacy.dart';
+import 'package:ample_click/presentation/screens/pharmacy-detail.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,6 +36,18 @@ final _router = GoRouter(
     GoRoute(
       path: '/pharma/signup',
       builder: (context, state) => PharmaSignUp(),
+    ),
+    GoRoute(
+      path: '/nearbyPharmacy',
+      builder: (context, state) => const PharmacySearchScreen(),
+    ),
+    GoRoute(
+      path: '/pharmacyDetail',
+      builder: (context, state) => const PharmacyDetail(),
+    ),
+    GoRoute(
+      path: '/locationToPharmacy',
+      builder: (context, state) => const LocationToPharmacyScreen(),
     ),
   ],
 );
