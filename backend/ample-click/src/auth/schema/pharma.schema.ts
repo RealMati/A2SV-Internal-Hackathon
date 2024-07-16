@@ -32,6 +32,9 @@ export class Pharma extends Document {
 
   @Prop({ default: '' })
   picture: string;
+
+  @Prop({ default: [], type: [String] })
+  medicines: string[];
 }
 
 export const PharmaSchema = SchemaFactory.createForClass(Pharma);

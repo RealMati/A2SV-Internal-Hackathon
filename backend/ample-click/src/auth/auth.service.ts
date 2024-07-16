@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<User>,
     @InjectModel('Admin') private readonly adminModel: Model<Admin>,
-    @InjectModel('Pharmacy') private readonly PharmaModel: Model<Pharma>,
+    @InjectModel('Pharma') private readonly PharmaModel: Model<Pharma>,
     private jwtService: JwtService,
   ) {}
 
@@ -37,9 +37,11 @@ export class AuthService {
   }
 
   async userRegister(reqBody: UserRegisterDto): Promise<{ token: string }> {
-    const check = this.userModel.findOne({ email: reqBody.email });
+    const check = await this.userModel.findOne({ email: reqBody.email });
+
     if (check) {
       throw new Error('User already exists');
+      console.log(check);
     }
 
     const userObj = { ...reqBody };
@@ -71,14 +73,14 @@ export class AuthService {
   }
 
   async adminRegister(reqBody: UserRegisterDto): Promise<{ token: string }> {
-    const check = this.adminModel.findOne({ email: reqBody.email });
+    const check = await this.adminModel.findOne({ email: reqBody.email });
     if (check) {
       throw new Error('User already exists');
     }
 
     const adminObj = { ...reqBody };
     adminObj.password = await bcrypt.hash(reqBody.password, 10);
-    const admin = await this.userModel.create(adminObj);
+    const admin = await this.adminModel.create(adminObj);
     const token = this.jwtService.sign({ id: admin._id, role: 'admin' });
     return { token };
   }
@@ -88,10 +90,10 @@ export class AuthService {
   }
 
   // Pharmacy
-  
+
   async pharmacyLogin(reqBody: UserLoginDto): Promise<{ token: string }> {
     const accObj = { ...reqBody };
-    const pharma = await this.adminModel.findOne({ email: accObj.email });
+    const pharma = await this.PharmaModel.findOne({ email: accObj.email });
     if (!pharma) {
       throw new UnauthorizedException('Invalid email or password');
     }
@@ -99,7 +101,7 @@ export class AuthService {
     const valid = await bcrypt.compare(accObj.password, pharma.password);
     let accessToken: string;
     if (valid) {
-      accessToken = this.jwtService.sign({ id: pharma._id, role: 'admin' });
+      accessToken = this.jwtService.sign({ id: pharma._id, role: 'pharmacy' });
     }
     return { token: accessToken };
   }
@@ -107,7 +109,7 @@ export class AuthService {
   async pharmacyRegister(
     reqBody: PharmaRegisterDto,
   ): Promise<{ token: string }> {
-    const check = this.PharmaModel.findOne({ email: reqBody.email });
+    const check = await this.PharmaModel.findOne({ email: reqBody.email });
     if (check) {
       throw new Error('User already exists');
     }
