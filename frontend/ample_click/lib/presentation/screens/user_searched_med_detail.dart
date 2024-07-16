@@ -1,6 +1,6 @@
 import 'package:ample_click/utils/dummy_data_home.dart';
 import 'package:ample_click/utils/dummy_data_pharmacies.dart';
-import 'package:ample_click/widgets/search_feild.dart';
+import 'package:ample_click/presentation/widgets/search_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -84,78 +84,75 @@ class _UserSearchedMedDetailState extends State<UserSearchedMedDetail> {
                     itemCount: pharmacies.length,
                     itemBuilder: (context, index) {
                       final item = pharmacies[index];
-                      return Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                  width: 80,
-                                  height: 80,
-                                  child: ClipPath(
-                                    clipper: ShapeBorderClipper(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8))),
-                                    child: Image(
-                                      image: AssetImage(item['image']),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )),
-                              Container(
-                                padding: const EdgeInsets.only(left: 12),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 8),
-                                          child: CircleAvatar(
-                                            radius: 6,
-                                            backgroundColor:
-                                                item['status'] == "open"
-                                                    ? Colors.green
-                                                    : Colors.red,
-                                          ),
-                                        ),
-                                        Text(
-                                          item['status'],
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5.0),
-                                      child: Text(
-                                        item['name'],
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
+                      return InkWell(
+                        onTap: () {
+                          context.go("/pharmacyDetail");
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                    width: 80,
+                                    height: 80,
+                                    child: ClipPath(
+                                      clipper: ShapeBorderClipper(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8))),
+                                      child: Image(
+                                        image: AssetImage(item['image']),
+                                        fit: BoxFit.cover,
                                       ),
-                                    ),
-                                    Text(item['distance'],
-                                        style: const TextStyle(
-                                            fontSize: 14, color: Colors.grey))
-                                  ],
+                                    )),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            margin:
+                                                const EdgeInsets.only(right: 8),
+                                            child: CircleAvatar(
+                                              radius: 6,
+                                              backgroundColor:
+                                                  item['status'] == "open"
+                                                      ? Colors.green
+                                                      : Colors.red,
+                                            ),
+                                          ),
+                                          Text(
+                                            item['status'],
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5.0),
+                                        child: Text(
+                                          item['name'],
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Text(item['distance'],
+                                          style: const TextStyle(
+                                              fontSize: 14, color: Colors.grey))
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       );
                     }))
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: widget._selected,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.store), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.location_on_sharp), label: "Nearby"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
           ],
         ),
       ),

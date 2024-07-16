@@ -1,12 +1,13 @@
-import 'package:ample_click/utils/dummy_data_home.dart';
-import 'package:ample_click/widgets/search_feild.dart';
+import 'package:ample_click/presentation/screens/customer-profile.dart';
+import 'package:ample_click/presentation/screens/nearby-pharmacy.dart';
+import 'package:ample_click/presentation/screens/user_home_inner.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class UserHome extends StatefulWidget {
-  const UserHome({super.key});
+  UserHome({super.key});
 
-  final _selected = 0;
+  int _selected = 0;
 
   @override
   State<UserHome> createState() => _UserHomeState();
@@ -15,111 +16,37 @@ class UserHome extends StatefulWidget {
 class _UserHomeState extends State<UserHome> {
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      const UserHomeInner(),
+      const NearbyPharmacy(),
+      CustomerProfile()
+    ];
+
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                context.pop();
-              },
-              icon: const Icon(Icons.chevron_left)),
-        ),
-        body: Column(
-          children: [
-            Card(
-              color: Theme.of(context).splashColor,
-              margin: const EdgeInsets.fromLTRB(8, 8, 8, 20),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 5, bottom: 20, top: 10),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Save Time and Effort!",
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                              "No more running around - Find what you need in just a few taps!")
-                        ],
-                      ),
-                    ),
-                    const SearchFeild(hint_text: "Search for medicine here..."),
-                  ],
-                ),
+          body: pages[widget._selected],
+          bottomNavigationBar: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
               ),
-            ),
-            Expanded(
-                child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                    itemCount: meds.length,
-                    itemBuilder: (context, index) {
-                      final item = meds[index];
-                      return SizedBox(
-                        height: 400,
-                        width: 350,
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                    width: double.infinity,
-                                    height: 80,
-                                    child: ClipPath(
-                                      clipper: ShapeBorderClipper(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8))),
-                                      child: Image(
-                                        image: AssetImage(item['image']),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )),
-                                Container(
-                                  padding: const EdgeInsets.only(left: 5),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        item['title'],
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(item['description'],
-                                          style: const TextStyle(
-                                              fontSize: 14, color: Colors.grey))
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }))
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: widget._selected,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.store), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.location_on_sharp), label: "Nearby"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
-          ],
-        ),
-      ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.location_pin),
+                label: 'Nearby',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: widget._selected,
+            onTap: (index) {
+              setState(() {
+                widget._selected = index;
+              });
+            },
+          )),
     );
   }
 }

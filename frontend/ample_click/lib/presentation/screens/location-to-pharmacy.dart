@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationToPharmacyScreen extends StatelessWidget {
@@ -13,10 +14,12 @@ class LocationToPharmacyScreen extends StatelessWidget {
           'Downtown Pharmacy',
           style: TextStyle(color: Colors.black),
         ),
-        leading: const Icon(Icons.arrow_back, color: Colors.black),
-        actions: const [
-          Icon(Icons.notifications, color: Colors.black),
-          SizedBox(width: 16),
+        leading:IconButton(onPressed: () {
+          context.pop();
+        }, icon:const Icon(Icons.arrow_back, color: Colors.black)),
+        actions: [
+          IconButton(onPressed: (){}, icon: const Icon(Icons.notifications, color: Colors.black)),
+          const SizedBox(width: 16),
         ],
       ),
       body: Stack(

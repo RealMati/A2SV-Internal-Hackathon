@@ -1,7 +1,7 @@
 import 'package:ample_click/presentation/widgets/edit_and_add_popup.dart';
 import 'package:ample_click/presentation/widgets/remove_popup.dart';
 import 'package:ample_click/utils/dummy_data_home.dart';
-import 'package:ample_click/widgets/search_feild.dart';
+import 'package:ample_click/presentation/widgets/search_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -126,15 +126,6 @@ class _PharmacyStoreState extends State<PharmacyStore> {
                         ),
                       );
                     }))
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: widget._selected,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.store), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.storefront_sharp), label: "On Store"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
           ],
         ),
       ),
