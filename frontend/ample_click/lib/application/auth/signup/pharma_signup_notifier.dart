@@ -5,13 +5,13 @@ import 'package:ample_click/infrastructure/auth/pharma/pharma_signup_dto.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PharmaSignupNotifier extends StateNotifier<PharmaSignupState> {
-  final PharmaSignupRepositoryInterface artistSignupRepo;
+  final PharmaSignupRepositoryInterface pharmaSignupRepo;
 
-  PharmaSignupNotifier({required this.artistSignupRepo})
+  PharmaSignupNotifier({required this.pharmaSignupRepo})
       : super(SignupInitialPharma());
   Future<void> artistSignup(PharmaSignupDTO pharmaDto) async {
     final res = await PharmaSignupEntity(
-            pharmacy: pharmaDto, signupRepository: artistSignupRepo)
+            pharmacy: pharmaDto, signupRepository: pharmaSignupRepo)
         .signupPharma();
 
     res.fold((l) {

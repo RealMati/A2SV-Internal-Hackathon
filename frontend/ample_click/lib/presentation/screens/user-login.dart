@@ -1,15 +1,39 @@
+import 'package:ample_click/application/auth/login/login_provider.dart';
 import 'package:ample_click/presentation/widgets/google-login.dart';
 import 'package:ample_click/presentation/widgets/auth-textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class UserLogin extends StatelessWidget {
+class UserLogin extends ConsumerWidget {
   UserLogin({super.key});
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  void userLoginHandler(WidgetRef ref) {
+    ref
+        .read(userLoginProvider.notifier)
+        .loginUser(_emailController.text, _passwordController.text);
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(userLoginProvider, (prev, nxt) {
+      if (nxt.errors.isEmpty && nxt.token.isNotEmpty) {
+        context.goNamed("artist", pathParameters: {"token": nxt.token});
+      }
+
+      if (nxt.errors.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(nxt.errors[0]),
+            backgroundColor: const Color.fromARGB(255, 212, 47, 47),
+          ),
+        );
+
+        ref.read(userLoginProvider.notifier).clearErrors();
+      }
+    });
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -39,7 +63,7 @@ class UserLogin extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: () {
-                      // context.go("/signup");
+                      // context.go("/user/forgot-password");
                     },
                     style: TextButton.styleFrom(
                       textStyle: const TextStyle(
@@ -54,7 +78,9 @@ class UserLogin extends StatelessWidget {
                 height: 40,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    userLoginHandler(ref);
+                  },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
                       const Color.fromARGB(255, 149, 117, 205),

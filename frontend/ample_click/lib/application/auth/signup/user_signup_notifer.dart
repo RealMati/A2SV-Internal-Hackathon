@@ -5,13 +5,13 @@ import 'package:ample_click/infrastructure/auth/user/user_signup_dto.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserSignupNotifier extends StateNotifier<UserSignupState> {
-  final UserSignupRepositoryInterface artistSignupRepo;
+  final UserSignupRepositoryInterface userSignupRepo;
 
-  UserSignupNotifier({required this.artistSignupRepo})
+  UserSignupNotifier({required this.userSignupRepo})
       : super(SignupInitialUser());
   Future<void> userSignup(UserSignupDTO artistDto) async {
     final res = await UserSignupEntity(
-            user: artistDto, signupRepository: artistSignupRepo)
+            user: artistDto, signupRepository: userSignupRepo)
         .signupUser();
 
     res.fold((l) {

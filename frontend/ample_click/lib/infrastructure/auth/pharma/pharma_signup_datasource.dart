@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class PharmaSignupDataSource {
   final String baseUrl = Domain.url;
 
-  Future<http.Response> signupUser(PharmaSignupDTO pharmacy) async {
+  Future<http.Response> signupPharma(PharmaSignupDTO pharmacy) async {
     final url = Uri.parse('$baseUrl/auth/pharmacy/register');
 
     final response = await http.post(

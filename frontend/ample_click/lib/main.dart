@@ -13,10 +13,13 @@ import 'package:ample_click/presentation/screens/nearby-pharmacy.dart';
 import 'package:ample_click/presentation/screens/pharmacy-detail.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(
+    child: MyApp(),
+  ));
 }
 
 final _router = GoRouter(
