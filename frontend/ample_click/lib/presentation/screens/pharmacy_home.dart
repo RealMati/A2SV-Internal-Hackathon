@@ -1,3 +1,4 @@
+import 'package:ample_click/presentation/widgets/edit_and_add_popup.dart';
 import 'package:ample_click/utils/dummy_data_home.dart';
 import 'package:ample_click/widgets/search_feild.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +111,10 @@ class _PharmacyHomeState extends State<PharmacyHome> {
                               ),
                               Expanded(
                                 child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showEditAmountPopup(
+                                          context, ' Amount In Range');
+                                    },
                                     icon: Icon(
                                       Icons.toggle_on,
                                       size: 40,

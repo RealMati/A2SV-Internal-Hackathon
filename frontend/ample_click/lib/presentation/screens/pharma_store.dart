@@ -1,3 +1,5 @@
+import 'package:ample_click/presentation/widgets/edit_and_add_popup.dart';
+import 'package:ample_click/presentation/widgets/remove_popup.dart';
 import 'package:ample_click/utils/dummy_data_home.dart';
 import 'package:ample_click/widgets/search_feild.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +93,10 @@ class _PharmacyStoreState extends State<PharmacyStore> {
                                   children: [
                                     Expanded(
                                       child: TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            showEditAmountPopup(
+                                                context, 'Edit Amount ');
+                                          },
                                           child: const Text(
                                             "Edit",
                                             style: TextStyle(
@@ -102,7 +107,9 @@ class _PharmacyStoreState extends State<PharmacyStore> {
                                     ),
                                     Expanded(
                                       child: TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            showRemovePopup(context);
+                                          },
                                           child: const Text(
                                             "Remove",
                                             style: TextStyle(
