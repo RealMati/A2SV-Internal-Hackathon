@@ -1,17 +1,12 @@
-import 'package:ample_click/screens/pharma_store.dart';
-import 'package:ample_click/screens/pharmacy_home.dart';
-import 'package:ample_click/screens/user_home.dart';
-import 'package:ample_click/screens/onboarding.dart';
-import 'package:ample_click/screens/pharma-login.dart';
-import 'package:ample_click/screens/pharma-signup.dart';
-import 'package:ample_click/screens/user-login.dart';
-import 'package:ample_click/screens/user-signup.dart';
-import 'package:ample_click/screens/user_searched_med_detail.dart';
+import 'package:ample_click/presentation/screens/user-signup.dart';
+import 'package:ample_click/presentation/screens/pharma_store.dart';
+import 'package:ample_click/presentation/screens/pharmacy_home.dart';
+import 'package:ample_click/presentation/screens/user_home.dart';
+import 'package:ample_click/presentation/screens/user_searched_med_detail.dart';
 import 'package:ample_click/presentation/screens/onboarding.dart';
 import 'package:ample_click/presentation/screens/pharma-login.dart';
 import 'package:ample_click/presentation/screens/pharma-signup.dart';
 import 'package:ample_click/presentation/screens/user-login.dart';
-import 'package:ample_click/presentation/screens/user-signup.dart'
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
