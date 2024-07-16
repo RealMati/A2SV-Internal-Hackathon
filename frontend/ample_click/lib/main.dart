@@ -5,6 +5,7 @@ import 'package:ample_click/screens/pharma-login.dart';
 import 'package:ample_click/screens/pharma-signup.dart';
 import 'package:ample_click/screens/user-login.dart';
 import 'package:ample_click/screens/user-signup.dart';
+import 'package:ample_click/screens/user_searched_med_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,6 +31,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/user/home',
       builder: (context, state) => const UserHome(),
+    ),
+    GoRoute(
+      path: '/user/searched_med_detail',
+      builder: (context, state) => const UserSearchedMedDetail(),
     ),
     GoRoute(
       path: '/pharma/login',

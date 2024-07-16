@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchFeild extends StatelessWidget {
   final hint_text;
@@ -12,6 +14,7 @@ class SearchFeild extends StatelessWidget {
       height: 50,
       child: TextField(
         decoration: InputDecoration(
+
             filled: true,
             fillColor: Colors.white,
             focusColor: Theme.of(context).primaryColorLight,
