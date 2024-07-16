@@ -154,7 +154,7 @@ class _UserSearchedMedDetailState extends State<UserSearchedMedDetail> {
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.store), label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.storefront_sharp), label: "On Store"),
+                icon: Icon(Icons.location_on_sharp), label: "Nearby"),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:ample_click/screens/pharma_store.dart';
 import 'package:ample_click/screens/pharmacy_home.dart';
 import 'package:ample_click/screens/user_home.dart';
 import 'package:ample_click/screens/onboarding.dart';
@@ -47,6 +48,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/pharma/home',
       builder: (context, state) => const PharmacyHome(),
+    ),
+    GoRoute(
+      path: '/pharma/store',
+      builder: (context, state) => const PharmacyStore(),
     ),
   ],
 );
