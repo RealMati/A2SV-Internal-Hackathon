@@ -62,7 +62,7 @@ class PharmacySearchScreen extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: SizedBox(
-                    height: 260,
+                    height: 265,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: const [
