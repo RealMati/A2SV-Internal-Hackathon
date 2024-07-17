@@ -10,12 +10,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Pharmacy_Profile(),
+      home: PharmacyProfile(),
     );
   }
 }
 
-class Pharmacy_Profile extends StatelessWidget {
+class PharmacyProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,27 +78,7 @@ class Pharmacy_Profile extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.near_me),
-            label: 'Nearby',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: 2,
-        selectedItemColor: Color.fromRGBO(148, 128, 249, 100),
-        onTap: (index) {
-          // Handle navigation logic here
-        },
-      ),
+      
     );
   }
 }

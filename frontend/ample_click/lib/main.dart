@@ -1,3 +1,5 @@
+import 'package:ample_click/presentation/screens/customer-profile.dart';
+import 'package:ample_click/presentation/screens/pharmacy_profile.dart';
 import 'package:ample_click/presentation/screens/signup.dart';
 import 'package:ample_click/presentation/screens/pharma_store.dart';
 import 'package:ample_click/presentation/screens/pharmacy_home.dart';
@@ -23,7 +25,7 @@ void main() {
 }
 
 final _router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/pharma/home',
   routes: [
     GoRoute(
       path: '/onboarding',
@@ -39,11 +41,19 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: '/user/home',
-      builder: (context, state) => const UserHome(),
+      builder: (context, state) => UserHome(),
     ),
     GoRoute(
       path: '/user/searched_med_detail',
       builder: (context, state) => const UserSearchedMedDetail(),
+    ),
+    GoRoute(
+      path: '/user/profile',
+      builder: (context, state) => CustomerProfile(),
+    ),
+    GoRoute(
+      path: '/pharma/profile',
+      builder: (context, state) => PharmacyProfile(),
     ),
     GoRoute(
       path: '/pharma/login',
@@ -55,7 +65,7 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: '/pharma/home',
-      builder: (context, state) => const PharmacyHome(),
+      builder: (context, state) => PharmacyHome(),
     ),
     GoRoute(
       path: '/pharma/store',
@@ -63,7 +73,7 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: '/nearbyPharmacy',
-      builder: (context, state) => const PharmacySearchScreen(),
+      builder: (context, state) => const NearbyPharmacy(),
     ),
     GoRoute(
       path: '/pharmacyDetail',
