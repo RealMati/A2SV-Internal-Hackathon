@@ -25,7 +25,7 @@ void main() {
 }
 
 final _router = GoRouter(
-  initialLocation: '/pharma/home',
+  initialLocation: '/login',
   routes: [
     GoRoute(
       path: '/onboarding',
