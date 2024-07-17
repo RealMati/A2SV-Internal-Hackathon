@@ -15,6 +15,7 @@ class PharmacyStore extends StatefulWidget {
 }
 
 class _PharmacyStoreState extends State<PharmacyStore> {
+  final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,13 +30,17 @@ class _PharmacyStoreState extends State<PharmacyStore> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Card(
                   elevation: 12,
                   margin: EdgeInsets.fromLTRB(8, 8, 8, 20),
-                  child: SearchFeild(hint_text: "Search for medicine here..."),
+                  child: SearchFeild(
+                    hint_text: "Search for medicine here...",
+                    onChanged: (value) {},
+                    controller: _controller,
+                  ),
                 ),
               ],
             ),

@@ -2,7 +2,6 @@ import 'package:ample_click/presentation/screens/customer-profile.dart';
 import 'package:ample_click/presentation/screens/nearby-pharmacy.dart';
 import 'package:ample_click/presentation/screens/user_home_inner.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class UserHome extends StatefulWidget {
   UserHome({super.key});

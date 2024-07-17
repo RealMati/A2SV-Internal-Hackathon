@@ -1,9 +1,7 @@
-import 'package:ample_click/presentation/screens/nearby-pharmacy.dart';
 import 'package:ample_click/presentation/screens/pharma_home_inner.dart';
 import 'package:ample_click/presentation/screens/pharma_store.dart';
 import 'package:ample_click/presentation/screens/pharmacy_profile.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class PharmacyHome extends StatefulWidget {
   PharmacyHome({super.key});

@@ -1,57 +1,94 @@
-import 'package:ample_click/presentation/widgets/search_feild.dart';
-import 'package:ample_click/utils/dummy_data_home.dart';
+import 'package:ample_click/List-Of-Medicine.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-class UserHomeInner extends StatelessWidget {
+class UserHomeInner extends StatefulWidget {
   const UserHomeInner({super.key});
 
   @override
+  State<UserHomeInner> createState() => _UserHomeInnerState();
+}
+
+class _UserHomeInnerState extends State<UserHomeInner> {
+  List<String> medicines = [];
+
+  List<String> filteredMedicines = [];
+
+  bool isSearching = false;
+
+  final TextEditingController _controller = TextEditingController();
+
+  void getMedicines() {
+    medicines = Medicines().getMedicines();
+    filteredMedicines = medicines;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getMedicines();
+  }
+
+  void _filterSearch(String value) {
+    setState(() {
+      filteredMedicines = medicines
+          .where((meds) => meds.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          color: Theme.of(context).splashColor,
-          margin: const EdgeInsets.fromLTRB(8, 8, 8, 20),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(
-                      left: 10, right: 5, bottom: 20, top: 10),
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Save Time and Effort!",
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                          "No more running around - Find what you need in just a few taps!")
-                    ],
+    return Scaffold(
+      appBar: AppBar(
+        title: !isSearching
+            ? const Text('Search Medicines')
+            : TextField(
+                onChanged: (value) {
+                  _filterSearch(value);
+                },
+                style: const TextStyle(color: Colors.deepPurple),
+                decoration: InputDecoration(
+                  icon: const Icon(
+                    Icons.search,
+                    color: Colors.deepPurple,
                   ),
+                  hintText: "Search Medicines Here",
+                  hintStyle: TextStyle(color: Colors.deepPurple[200]),
                 ),
-                const SearchFeild(hint_text: "Search for medicine here..."),
-              ],
-            ),
-          ),
-        ),
-        Expanded(
-            child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemCount: meds.length,
-                itemBuilder: (context, index) {
-                  final item = meds[index];
-                  return SizedBox(
-                    height: 400,
-                    width: 350,
-                    child: InkWell(
-                      onTap: () {
-                        context.go('/user/searched_med_detail');
-                      },
+              ),
+        actions: <Widget>[
+          isSearching
+              ? IconButton(
+                  icon: const Icon(Icons.cancel),
+                  onPressed: () {
+                    setState(() {
+                      isSearching = false;
+                      filteredMedicines = medicines;
+                    });
+                  },
+                )
+              : IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    setState(() {
+                      isSearching = true;
+                    });
+                  },
+                )
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemCount: filteredMedicines.length,
+                  itemBuilder: (context, index) {
+                    final item = filteredMedicines[index];
+                    return SizedBox(
+                      height: 400,
+                      width: 350,
                       child: Card(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -63,13 +100,13 @@ class UserHomeInner extends StatelessWidget {
                                   height: 80,
                                   child: ClipPath(
                                     clipper: ShapeBorderClipper(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8))),
-                                    child: Image(
-                                      image: AssetImage(item['image']),
-                                      fit: BoxFit.cover,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
                                     ),
+                                    child: Image.asset(
+                                        'assets/pharma_profile.jpg',
+                                        fit: BoxFit.cover),
                                   )),
                               Container(
                                 padding: const EdgeInsets.only(left: 5),
@@ -77,13 +114,16 @@ class UserHomeInner extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      item['title'],
+                                      item,
+                                      maxLines: 2,
                                       style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
-                                    Text(item['description'],
-                                        style: const TextStyle(
+                                    const Text('Description not available',
+                                        style: TextStyle(
                                             fontSize: 14, color: Colors.grey))
                                   ],
                                 ),
@@ -92,10 +132,10 @@ class UserHomeInner extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }))
-      ],
+                    );
+                  }))
+        ],
+      ),
     );
   }
 }
